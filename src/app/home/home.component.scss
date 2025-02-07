@@ -1,0 +1,22 @@
+.wrap{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: space-between;
+    .container{
+        width: 80%;
+        display: flex;
+        align-items: flex-start;
+        flex-grow: 1;
+    
+        .home{
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+        
+        img{
+            width: 100%;
+        }
+    }
+}

@@ -1,0 +1,25 @@
+<div class="wrap">
+
+    <app-nav></app-nav>
+    
+    <div class="container">
+        <div class="home">
+            
+            <h2>{{ title  }}</h2>
+            <p>{{ description }}</p>
+            
+            
+            <p>On est le  {{ date }}</p>
+            
+        </div>
+    </div>
+    <div >
+        @for(user of users; track user.id){
+            <p>id : {{ user.id }} {{ user.name }} {{ user.age }} ans</p>
+        }
+        
+
+    </div>
+    
+    <app-footer></app-footer>
+</div>
