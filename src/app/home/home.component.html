@@ -5,20 +5,37 @@
     <div class="container">
         <div class="home">
             
-            <h2>{{ title  }}</h2>
+            <h2>{{ title  }} <fa-icon [icon]="faGithub" [style.color]="'red'"></fa-icon></h2>
             <p>{{ description }}</p>
-            
-            
+                   
             <p>On est le  {{ date }}</p>
+            <fa-icon [icon]="faStar"></fa-icon>
             
         </div>
     </div>
-    <div >
-        @for(user of users; track user.id){
-            <p>id : {{ user.id }} {{ user.name }} {{ user.age }} ans</p>
-        }
-        
 
+    <div class="test">
+      
+        <form #form="ngForm" (ngSubmit)="onSubmitUser()" *ngIf="isShowForm">
+            <legend>Modifier</legend>
+            <input type="text" [(ngModel)]="editUser.name" name="name" placeholder="Nom">
+            <input type="number" [(ngModel)]="editUser.age" name="age" placeholder="Age">
+            <input type="submit" value="Valider">
+        </form>
+    </div>
+    <div class="user">
+        @for(user of users; track user.id){
+            <div class="user" *ngIf="user.age > 1">
+                id : {{ user.id }} {{ user.name }} {{ user.age }} ans
+                <button (click)="onEditUser(user.id)"><fa-icon [icon]="faUser"></fa-icon></button>
+                <button (click)="onDeleteUser(user.id)"><fa-icon [icon]="faXmark"></fa-icon></button>
+            </div>    
+        }
+    </div>
+    <div>
+        <button (click)="onAddUser()">
+            <fa-icon [icon]="faPlus"></fa-icon>
+        </button>
     </div>
     
     <app-footer></app-footer>
