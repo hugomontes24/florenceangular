@@ -17,7 +17,7 @@
     <div class="test">
       
         <form #form="ngForm" (ngSubmit)="onSubmitUser()" *ngIf="isShowForm">
-            <legend>Modifier</legend>
+            <legend>{{ editUser.id !== -1 ? 'Modifier' : 'Nouveau client' }}</legend>
             <input type="text" [(ngModel)]="editUser.name" name="name" placeholder="Nom">
             <input type="number" [(ngModel)]="editUser.age" name="age" placeholder="Age">
             <input type="submit" value="Valider">
