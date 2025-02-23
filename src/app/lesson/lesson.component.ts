@@ -48,17 +48,8 @@ export class LessonComponent {
   getAllLessons=():void => {
     this.httpService.getAllLessons().subscribe({
       next: (data:any) => {
-        this.lessons = data.map((item:any)=>{
-          if(item.date.date){
-            const dateString = item.date.date;
-            const dateObject = new Date(dateString);
-            item.date = dateObject;
-          }else {
-            item.date = null
-          }
-          return item;
-        })
-       // console.log(this.lessons);       
+        this.lessons = this.lessonMapper.dataToGetDTOArray(data);
+        console.log(this.lessons);     
       },
       error: (err: Error) => console.error('Observer got an error: ' + err),
       // complete: ()=>this.router.navigate(['listCategory'])
@@ -99,35 +90,11 @@ export class LessonComponent {
      
     }
 
-  getLessonById = (id: number):void => {
-    this.httpService.getLessonById(id).subscribe({
-      next: (data) => {
-        this.editLesson = data;
-        
-        if(data.date.date) {
-          const dateString = data.date.date;
-          const dateObject = new Date(dateString);
-          // this.editLesson.date = dateObject;
-        }
-
-        this.lessonCategory = data.lessonCategory;
-        
-        if (this.editLesson.date !== null) {
-          // this.editLesson.date = new Date(this.editLesson.date);
-        }
-        
-      },
-      error: (err: Error) => console.error('Observer got an error: ' + err),
-      // complete: ()=>this.router.navigate(['listCategory'])
-      complete: () => console.log('Successfully fetched all users')
-    });
-  }
-
   getAllLessonsCategories = ():void => {
     this.httpService.getAllLessonsCategories().subscribe({
       next: (data:LessonCategory[]) => {
         this.lessonsCategories = data;
-        this.lessonsCategories.forEach(cat =>{
+        this.lessonsCategories.forEach(cat =>{ 
           this.CategoryMap[cat.id] = cat.name;
         });
         // console.log(this.lessonsCategories);       
@@ -137,12 +104,7 @@ export class LessonComponent {
       complete: () => console.log('Successfully fetched all users')
     });
   }
-
-  // dateToIsoStringLocale = ( date:Date ):string => {
-  //   const localDate = new Date( date.getTime() - date.getTimezoneOffset() * 60000 );
-  //   return localDate.toISOString().slice(0,16);// convertit en 'YYYY-MM-DDTHH:mm'
-  // }
-
+  // renvoie une date iso en objet Date locale
   isoStringToDate = (isoLocal: string): Date => {
     const date = new Date(isoLocal);
     return new Date(date.getTime() + date.getTimezoneOffset() * 60000);
@@ -151,3 +113,31 @@ export class LessonComponent {
  
 
 }
+
+  // getLessonById = (id: number):void => {
+  //   this.httpService.getLessonById(id).subscribe({
+  //     next: (data) => {
+  //       this.editLesson = data;
+        
+  //       if(data.date.date) {
+  //         const dateString = data.date.date;
+  //         const dateObject = new Date(dateString);
+  //         // this.editLesson.date = dateObject;
+  //       }
+
+  //       this.lessonCategory = data.lessonCategory;
+        
+  //       if (this.editLesson.date !== null) {
+  //         // this.editLesson.date = new Date(this.editLesson.date);
+  //       }
+  //     },
+  
+  //   });
+  // }
+
+
+
+    // dateToIsoStringLocale = ( date:Date ):string => {
+  //   const localDate = new Date( date.getTime() - date.getTimezoneOffset() * 60000 );
+  //   return localDate.toISOString().slice(0,16);// convertit en 'YYYY-MM-DDTHH:mm'
+  // }

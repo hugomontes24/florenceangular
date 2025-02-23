@@ -25,8 +25,8 @@ import { LessonDTO } from '../lesson/lessonDTO.interface';
     getAllLessons = ():Observable<LessonGetDTO[]> =>{
       return this.http.get<LessonGetDTO[]>(`http://localhost/florence/apiFlorence/lessons`);
     }
-    getLessonById= (id : number): Observable<any> => {
-      return this.http.get<any>(`http://localhost/florence/apiFlorence/lessons/${id}`);
+    getLessonById= (id : number): Observable<LessonGetDTO> => {
+      return this.http.get<LessonGetDTO>(`http://localhost/florence/apiFlorence/lessons/${id}`);
     }
 
     patchLesson = (lessonDTO: LessonDTO): Observable<any> => {

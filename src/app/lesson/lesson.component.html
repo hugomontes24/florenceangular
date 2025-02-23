@@ -1,3 +1,16 @@
+<div class="lessons">
+  <h2>Les cours</h2>
+  <div class="lessons-wrapper">
+    @for(lesson of lessons; track lesson.id){
+      <a class="lesson-card"
+        [href]="'/lessons/' +lesson.id">
+        <h3>{{ CategoryMap[lesson.idCategory] | titlecase }}</h3>
+        <!-- <p>{{ lesson.description }}</p> -->
+        <p>{{ lesson.nbMaxUsers }} places</p>
+      </a>
+    }
+  </div>
+</div>
 
 <table border="1">
     <thead>

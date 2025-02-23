@@ -7,6 +7,22 @@ import { LessonDTO } from "../lesson/lessonDTO.interface";
 })
 
 export class LessonMapper {
+    dataToGetDTOArray = (data:any): LessonGetDTO[] => {
+        let lessons:LessonGetDTO[] = data.map((item:any) => {
+            if(item.date.date){
+              const dateString = item.date.date;
+              const dateObject = new Date(dateString);
+              item.date = dateObject;
+            }else{
+                item.date = null
+            }
+            return item;
+        });
+        return lessons;
+    }
+    dataToGetDTO = (data:any): LessonGetDTO => {
+        return data;
+    }
 
     getDTOtoDTO = (lessonGetDTO: LessonGetDTO): LessonDTO => {
         const lessonDTO: LessonDTO = {
