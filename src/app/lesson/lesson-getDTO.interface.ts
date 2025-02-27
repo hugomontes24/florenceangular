@@ -1,3 +1,5 @@
+import { UserGetDTO } from "../user/user-getDTO.interface";
+
 export interface LessonGetDTO {   
     id : number;
     duration : number; // in minutes
@@ -5,4 +7,5 @@ export interface LessonGetDTO {
     price: number;
     nbMaxUsers: number;
     idCategory: number;
+    users: UserGetDTO[];
 }

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../user/user.interface';
+import { UserGetDTO } from '../user/user-getDTO.interface';
 import { LessonGetDTO } from '../lesson/lesson-getDTO.interface';
 import { LessonCategory } from '../lesson/lesson-category.interface';
 import { LessonMapper } from '../mappers/lesson.mapper';
@@ -14,9 +15,18 @@ import { LessonDTO } from '../lesson/lessonDTO.interface';
   })
 
   export class HttpService {
-   
+    
     constructor( private http: HttpClient, private lessonMapper: LessonMapper ) {  }
+    
 
+    lessonReservation = (user: UserGetDTO, lessonId: number):Observable<any> => {
+      return this.http.post<any>(`http://localhost/florence/apiFlorence/lessons/${lessonId}/reservations`, user );
+    }
+
+    lessonDeleteReservation = (userId: number, lessonId: number):Observable<any> => {
+      return this.http.delete<any>(`http://localhost/florence/apiFlorence/lessons/${lessonId}/reservations/${userId}` );
+    }
+    
     getAllLessonsCategories= ():Observable<LessonCategory[]> =>{
       return this.http.get<LessonCategory[]>(`http://localhost/florence/apiFlorence/lesson-categories`);
 
@@ -38,6 +48,13 @@ import { LessonDTO } from '../lesson/lessonDTO.interface';
 
     getAll(): Observable<User[]> { // return Observable<User[]> type
       return this.http.get<User[]>(`http://localhost/florence/apiFlorence/users`);
+    }
+
+    getOne = (id: number) => {  
+      return this.http.get<User>(`http://localhost/florence/apiFlorence/users/${id}`);
+    }
+    getOneByEmail = (email: string) : Observable<User> => {  
+      return this.http.get<User>(`http://localhost/florence/apiFlorence/users/${email}`);
     }
     
     update(editUser:User):Observable<any>{

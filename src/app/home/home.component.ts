@@ -40,7 +40,7 @@ export class HomeComponent {
     this.getAllUsers();
   }
 
-  editUser : User={id:-1, name:'', age:0, is_valid:false};  
+  editUser : User={id:-1, name:'',email:'', age:0, is_valid:false};  
   isShowForm :boolean = false; 
   onEditUser(userId: number): void {
     this.editUser = this.users.find(user => user.id === userId) as User;
@@ -48,7 +48,7 @@ export class HomeComponent {
   }
 
   onAddUser=() => {
-    this.editUser = {id:-1, name:'nouveau client', age:0, is_valid:false};
+    this.editUser = {id:-1, name:'nouveau client', email:'', age:0, is_valid:false};
     this.isShowForm = true;
   }
 

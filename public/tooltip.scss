@@ -1,0 +1,14 @@
+.mat-mdc-tooltip{
+    // background color tooltip 
+    --mdc-plain-tooltip-container-color: rgba(250, 235, 215, 0.467)!important;
+    // text color
+    --mdc-plain-tooltip-supporting-text-color: black;
+    // text font family
+    --mdc-plain-tooltip-supporting-text-font: Roboto, "Helvetica Neue", sans-serif;
+    margin-top: 0;
+}
+
+.tooltip{
+    --mdc-plain-tooltip-container-color: rgba(215, 250, 224, 0.904)!important;
+
+}

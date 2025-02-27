@@ -4,7 +4,7 @@
     @for(lesson of lessons; track lesson.id){
       <a class="lesson-card"
         [href]="'/lessons/' +lesson.id">
-        <h3>{{ CategoryMap[lesson.idCategory] | titlecase }}</h3>
+        <h3>{{ categoryMap[lesson.idCategory] | titlecase }}</h3>
         <!-- <p>{{ lesson.description }}</p> -->
         <p>{{ lesson.nbMaxUsers }} places</p>
       </a>
@@ -29,7 +29,7 @@
       @for(lesson of lessons; track lesson.id){
         <tr>
           <td>{{ lesson.id }}</td>
-          <td>{{ CategoryMap[lesson.idCategory] }}</td>
+          <td>{{ categoryMap[lesson.idCategory] }}</td>
           <td>{{ lesson.duration }}</td>
           <td>{{ lesson.date | date: 'short' }}</td>
           <td>{{ lesson.price }}</td>
@@ -46,30 +46,29 @@
     </tbody>
 </table>
 
-      <div class="test">
-      
-        <form #form="ngForm" (ngSubmit)="onSubmitLesson()" *ngIf="isShowForm">
-            <legend>{{ editLesson.id !== -1 ? 'Modifier' : 'Nouveau client' }}</legend>
-            <label for="category">Cours</label>
-                <select id="category" [(ngModel)]="editLesson.idCategory" name="idCategory" >
-                  <!-- <option *ngFor="let cat of lessonsCategories" [value]="cat.id">
-                    {{ CategoryMap[cat.id]}}
-                  </option> -->
-                  @for(cat of lessonsCategories; track cat.id){
-                    <option [ngValue]="cat.id" >
-                      {{ CategoryMap[cat.id]}}
-                    </option>
-                  }
-                </select>
-            <label for="duration">Durée en min</label>
-            <input type="number" [(ngModel)]="editLesson.duration" name="duration" id="duration" placeholder="Durée en mn">
-            <input type="date" [(ngModel)]="inputDate" name="date" >
-            <input type="time" [(ngModel)]="inputTime" name="time" >
-            <input type="number" [(ngModel)]="editLesson.price" name="price" placeholder="Prix en euros">
-            <input type="number" [(ngModel)]="editLesson.nbMaxUsers" name="nbMaxUsers" placeholder="Nombre de places">
-            <input type="submit" value="Valider">
-        </form>
-    </div>
+<div class="test">
+  <form #form="ngForm" (ngSubmit)="onSubmitLesson()" *ngIf="isShowForm">
+    <legend>{{ editLesson.id !== -1 ? 'Modifier' : 'Nouveau client' }}</legend>
+    <label for="category">Cours</label>
+        <select id="category" [(ngModel)]="editLesson.idCategory" name="idCategory" >
+          <!-- <option *ngFor="let cat of lessonsCategories" [value]="cat.id">
+            {{ CategoryMap[cat.id]}}
+          </option> -->
+          @for(cat of lessonsCategories; track cat.id){
+            <option [ngValue]="cat.id" >
+              {{ categoryMap[cat.id]}}
+            </option>
+          }
+        </select>
+    <label for="duration">Durée en min</label>
+    <input type="number" [(ngModel)]="editLesson.duration" name="duration" id="duration" placeholder="Durée en mn">
+    <input type="date" [(ngModel)]="inputDate" name="date" >
+    <input type="time" [(ngModel)]="inputTime" name="time" >
+    <input type="number" [(ngModel)]="editLesson.price" name="price" placeholder="Prix en euros">
+    <input type="number" [(ngModel)]="editLesson.nbMaxUsers" name="nbMaxUsers" placeholder="Nombre de places">
+    <input type="submit" value="Valider">
+  </form>
+</div>
       <!-- <tr *ngFor="let lesson of lessons">
         <td>{{ lesson.id }}</td>
         <td>{{ CategoryMap[lesson.idCategory] }}</td>

@@ -23,7 +23,7 @@ import { LessonMapper } from '../mappers/lesson.mapper';
 export class LessonComponent {
   lessons: LessonGetDTO[] = [];
   lessonsCategories: LessonCategory[] = [];
-  CategoryMap : {[idCategory:number]: string} = {};// mapping de lessonsCategories id_category=>nam
+  categoryMap : {[idCategory:number]: string} = {};// mapping de lessonsCategories id_category=>nam
   editLesson: LessonDTO = {
                 id: -1, 
                 duration: 0, 
@@ -45,18 +45,6 @@ export class LessonComponent {
     this.getAllLessonsCategories();
   }
 
-  getAllLessons=():void => {
-    this.httpService.getAllLessons().subscribe({
-      next: (data:any) => {
-        this.lessons = this.lessonMapper.dataToGetDTOArray(data);
-        console.log(this.lessons);     
-      },
-      error: (err: Error) => console.error('Observer got an error: ' + err),
-      // complete: ()=>this.router.navigate(['listCategory'])
-      complete: () => console.log('Successfully fetched all users')
-    });
-  }
-
   isShowForm : boolean = false ;
   formattedDate : string = '';
   inputDate : string = '';
@@ -75,7 +63,7 @@ export class LessonComponent {
   }
 
   onSubmitLesson =():void =>{
-    console.log(this.formattedDate);
+    
     if(this.inputDate !== '' && this.inputTime !== '') {
       //this.formattedDate = `${this.inputDate}T${this.inputTime}`
       this.editLesson.date = this.lessonMapper.dateLocaleToFormatDBLocale(this.inputDate,this.inputTime);
@@ -85,7 +73,9 @@ export class LessonComponent {
       next: (data:JSON)=>{
             this.getAllLessons();
             console.log(data); 
-      }
+      },
+      error: (err: Error) => console.error('Observer got an error: ' + err),
+      complete: () => console.log('Successfully fetched all users')
     })
      
     }
@@ -95,7 +85,7 @@ export class LessonComponent {
       next: (data:LessonCategory[]) => {
         this.lessonsCategories = data;
         this.lessonsCategories.forEach(cat =>{ 
-          this.CategoryMap[cat.id] = cat.name;
+          this.categoryMap[cat.id] = cat.name;
         });
         // console.log(this.lessonsCategories);       
       },
@@ -104,6 +94,19 @@ export class LessonComponent {
       complete: () => console.log('Successfully fetched all users')
     });
   }
+
+  getAllLessons=():void => {
+    this.httpService.getAllLessons().subscribe({
+      next: (data:any) => {
+        this.lessons = this.lessonMapper.dataToGetDTOArray(data);
+        console.log(this.lessons);     
+      },
+      error: (err: Error) => console.error('Observer got an error: ' + err),
+      // complete: ()=>this.router.navigate(['listCategory'])
+      complete: () => console.log('Successfully fetched all users')
+    });
+  }
+
   // renvoie une date iso en objet Date locale
   isoStringToDate = (isoLocal: string): Date => {
     const date = new Date(isoLocal);

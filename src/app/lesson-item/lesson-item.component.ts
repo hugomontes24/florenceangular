@@ -1,53 +1,156 @@
 import { Component } from '@angular/core';
-import { Lesson } from '../lesson/lesson.interface';
 import { LessonGetDTO } from '../lesson/lesson-getDTO.interface';
 import { HttpService } from '../services/http.service';
 import { ActivatedRoute } from '@angular/router';
+import { LessonCategory } from '../lesson/lesson-category.interface';
+import { CommonModule } from '@angular/common';
+import { LessonMapper } from '../mappers/lesson.mapper';
+import { UserGetDTO } from '../user/user-getDTO.interface';
+import { FaIconComponent, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationComponent } from '../core/confirmation/confirmation.component';
+import { faChevronDown, faChevronUp, faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
+import { MatTooltip } from '@angular/material/tooltip';
+import { DialogDeleteComponent } from '../core/dialog-delete/dialog-delete.component';
+
+
 
 @Component({
   selector: 'app-lesson-item',
   standalone: true,
-  imports: [],
+  imports: [
+    CommonModule,FontAwesomeModule, FaIconComponent,
+    FormsModule, MatButtonModule, MatTooltip
+  ],
   templateUrl: './lesson-item.component.html',
-  styleUrl: './lesson-item.component.scss'
+  styleUrl: './lesson-item.component.scss',
 })
+
 export class LessonItemComponent {
 
+  user: UserGetDTO = {
+      id: null,
+      name: '',
+      email: '',
+      age: 0,
+      isValid: false
+    }
+  lessonsCategories: LessonCategory[] = [];
+  categoryMap : {[idCategory:number]: string} = {};
+  placesList: any;
+ 
   lesson : LessonGetDTO = {
     id: 0,
     duration: 0,
     date: new Date(),
     price: 0,
     nbMaxUsers: 0,
-    idCategory: 0
+    idCategory: 0,
+    users: []
   };
 
-  constructor(private httpService: HttpService, private route: ActivatedRoute){}
+  constructor(private httpService: HttpService, private route: ActivatedRoute,
+    private lessonMapper:LessonMapper, private dialog: MatDialog
+  ){}
 
   ngOnInit():void{
     this.lesson.id = this.getId(this.route.snapshot.paramMap.get('id'));
-
     this.getLessonById(this.lesson.id);
+    this.getAllLessonsCategories();
+  }
+
+  isVisible: boolean = true; // TODO turn to false
+  toggleAccordion = () => {
+    this.isVisible = !this.isVisible;
+  }
+
+  isFormReserve : boolean = false ;
+  onReserveUser(i: number) {
+    this.isFormReserve=true;
+  }
+ 
+  onSubmitReservation() {
+    this.httpService.lessonReservation(this.user, this.lesson.id).subscribe({
+      next: (data:UserGetDTO) => {
+        const newUser = data;
+        let index = this.placesList.indexOf(null);
+        this.placesList[index] = newUser;
+        const dialogRef = this.dialog.open(ConfirmationComponent);  
+        // TODO this.isFormReserve = false;
+      },
+      error: (err: Error) => console.error('Observer got an error: ' + err),
+      complete: () => console.log('Observer got a complete notification')
+    })
+  }
+  
+  onWithdrawUser(i: number) {  // desincrire un user de la lesson delete dans lesson-user
+    const dialogRef1 = this.dialog.open(DialogDeleteComponent);
+
+    dialogRef1.afterClosed().subscribe((dialogResult : any)=>{
+      if(dialogResult){
+            this.httpService.lessonDeleteReservation(this.placesList[i].id, this.lesson.id).subscribe({ 
+          next: () => {this.placesList[i] = null;},
+          error: (err: Error) => console.error('Observer got an error: ' + err),
+          complete: () => console.log('Suppression réussiee')
+        });
+        
+      }
+    });
+
+
+   
+
+    console.log(this.placesList[i].id, this.lesson.id);
   }
 
 
   getLessonById = (id: number) => {
     this.httpService.getLessonById(id).subscribe({
       next: (data:any) => {
-        this.lesson = data;
+        this.lesson = this.lessonMapper.dataToGetDTO(data);
+        this.placesList = Array.from({length: this.lesson.nbMaxUsers}, (_, i) => null);
+        this.lesson.users.forEach((user: UserGetDTO, index: number) => {
+          this.placesList[index] = user;
+      });
+        console.log(this.placesList);
       },
       error: (err: Error) => console.error('Observer got an error: ' + err),
       complete: () => console.log('Observer got a complete notification')
     })
-    console.log(id);
-    
   }
+
+  refreshPlacesList = (newUser: UserGetDTO) => {
+    this.placesList.add(newUser);
+  }
+    getAllLessonsCategories = ():void => {
+      this.httpService.getAllLessonsCategories().subscribe({
+        next: (data:LessonCategory[]) => {
+          this.lessonsCategories = data;
+          this.lessonsCategories.forEach(cat =>{ 
+            this.categoryMap[cat.id] = cat.name;
+          });
+          // console.log(this.lessonsCategories);       
+        },
+        error: (err: Error) => console.error('Observer got an error: ' + err),
+        // complete: ()=>this.router.navigate(['listCategory'])
+        complete: () => console.log('Successfully fetched all users')
+      });
+    }
+
 
 
   // UTILS
 
-  getId(id: string | any): number {
+  getId = (id: string | any): number => {
     return parseInt(id) ?? -1;
   }
+
+
+
+  faChevronDown = faChevronDown;
+  faChevronUp= faChevronUp;
+  faX = faXmarkCircle;
 
 }

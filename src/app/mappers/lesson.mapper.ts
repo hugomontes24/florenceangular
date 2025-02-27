@@ -10,8 +10,7 @@ export class LessonMapper {
     dataToGetDTOArray = (data:any): LessonGetDTO[] => {
         let lessons:LessonGetDTO[] = data.map((item:any) => {
             if(item.date.date){
-              const dateString = item.date.date;
-              const dateObject = new Date(dateString);
+              const dateObject = new Date(item.date.date);
               item.date = dateObject;
             }else{
                 item.date = null
@@ -20,8 +19,22 @@ export class LessonMapper {
         });
         return lessons;
     }
+
     dataToGetDTO = (data:any): LessonGetDTO => {
-        return data;
+        const lessonGetDTO: LessonGetDTO = {
+            id: data.id,
+            duration: data.duration,
+            date: null,
+            price: data.price,
+            nbMaxUsers: data.nbMaxUsers,
+            idCategory: data.idCategory,
+            users: data.users
+        }
+        if(data.date.date){
+            const dateObject = new Date(data.date.date);
+            lessonGetDTO.date = dateObject;
+        }
+        return lessonGetDTO;
     }
 
     getDTOtoDTO = (lessonGetDTO: LessonGetDTO): LessonDTO => {

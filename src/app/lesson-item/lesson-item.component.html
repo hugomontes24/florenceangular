@@ -1,1 +1,67 @@
-<p>lesson-item works!</p>
+<div class="lesson-item wrapper">
+    <h1>{{ categoryMap[lesson.idCategory] | titlecase }}</h1>
+    <h3>Prochains cours</h3>
+    <div class="accordion-header" (click)="toggleAccordion()">
+        <!-- <div>
+            {{ lesson.date | date: 'short' }} - {{ lesson.duration }} minutes
+        </div> -->
+        <div>{{ lesson.date | date: 'short' }}</div>
+        <div *ngIf="!isVisible"><fa-icon [icon]="faChevronDown"></fa-icon></div>
+        <div *ngIf="isVisible"><fa-icon [icon]="faChevronUp"></fa-icon></div>
+    </div>
+    <div class="accordion-content" *ngIf="isVisible" >
+        <p>{{ lesson.nbMaxUsers }} places. Il en reste {{ lesson.nbMaxUsers - lesson.users.length }}</p>
+        <div class="places">
+            <div *ngFor ="let _ of placesList; let i = index" class="place">
+                <div *ngIf="placesList[i]; else empty" class="place-full">  
+                    <button (click)="onWithdrawUser(i)" matTooltip="Se désincrire" 
+                        class="button-withdraw" matTooltipClass="tooltip" matTooltipPosition="below">
+                        <fa-icon [icon]="faX"></fa-icon>
+                    </button>
+                    <div>{{ placesList[i].name}}</div>
+                </div>
+                <ng-template #empty>
+                    <div class="place-empty" (click)="onReserveUser(i)">Réserver</div>
+                </ng-template>          
+            </div>   
+        </div>
+        
+
+        <!-- <button (click)="onReserveUser()" *ngIf="placesList.includes(null)">Reserver</button>     -->
+
+    </div>
+    <div class="test">
+        <form #form="ngForm" (ngSubmit)="onSubmitReservation()" *ngIf="isFormReserve">
+          <legend>Réservation</legend>
+           <div>
+               <label for="id">id</label>
+               <input type="number" [(ngModel)]="user.id" name="id" id="id" placeholder="User id" disabled="true">
+           </div>
+           <div>
+               <label for="nom">nom</label>
+               <input type="text" [(ngModel)]="user.name" name="nom" required >
+            </div>
+            <div>
+               <label for="email">Email</label>
+               <input type="email" [(ngModel)]="user.email" name="email" required >
+           </div>
+           <div>
+               <label for="age">Age</label>
+               <input type="number" [(ngModel)]="user.age" name="age" required >
+           </div>
+           <div>
+               <label for="isValid">Utilisateur verifié ? </label>
+               <label>
+                 <input type="radio" [(ngModel)]="user.isValid" name="isValid" [value]="true">   
+                 Oui
+                 <input type="radio" [(ngModel)]="user.isValid" name="isValid" [value]="false">   
+                 Non
+               </label>
+           </div>
+
+          <input type="submit" value="Valider">
+        </form>
+    </div>
+   
+
+</div>

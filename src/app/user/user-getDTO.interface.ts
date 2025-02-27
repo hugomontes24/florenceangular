@@ -1,5 +1,5 @@
-export interface User { 
-    id : number;
+export interface UserGetDTO { 
+    id : number | null;
     name : string;
     email : string;
     //password : string;
@@ -9,5 +9,5 @@ export interface User {
     //updated_at : string;
     //deleted_at : string;
     age : number;
-    is_valid : boolean;
+    isValid : boolean;
 }
