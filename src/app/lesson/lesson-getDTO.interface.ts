@@ -6,6 +6,9 @@ export interface LessonGetDTO {
     date: Date | null;
     price: number;
     nbMaxUsers: number;
+    placesUsersArray: any[];
     idCategory: number;
     users: UserGetDTO[];
+    name: string|null;
+    isVisible: boolean; // accordion open or close
 }

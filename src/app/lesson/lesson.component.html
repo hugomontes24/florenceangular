@@ -3,7 +3,7 @@
   <div class="lessons-wrapper">
     @for(lesson of lessons; track lesson.id){
       <a class="lesson-card"
-        [href]="'/lessons/' +lesson.id">
+        [href]="'/lessons/' + lesson.id">
         <h3>{{ categoryMap[lesson.idCategory] | titlecase }}</h3>
         <!-- <p>{{ lesson.description }}</p> -->
         <p>{{ lesson.nbMaxUsers }} places</p>
@@ -54,7 +54,7 @@
           <!-- <option *ngFor="let cat of lessonsCategories" [value]="cat.id">
             {{ CategoryMap[cat.id]}}
           </option> -->
-          @for(cat of lessonsCategories; track cat.id){
+          @for(cat of categories; track cat.id){
             <option [ngValue]="cat.id" >
               {{ categoryMap[cat.id]}}
             </option>

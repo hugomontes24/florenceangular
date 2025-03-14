@@ -1,5 +1,5 @@
 import { User } from "../user/user.interface";
-import { LessonCategory } from "./lesson-category.interface";
+import { LessonCategory } from "../lesson-category/lesson-category.interface";
 
 export interface Lesson {   
     id : number;

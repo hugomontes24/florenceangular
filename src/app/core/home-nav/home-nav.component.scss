@@ -1,0 +1,22 @@
+.navbar{
+    background-color: rgba(250, 235, 215, 0.554);
+    .container-fluid{
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+    }
+    .navbar-brand{
+        color: green;
+    }
+    &-title{
+        font-size: 1.2rem;
+        margin: 0;
+        padding: 0;
+    }
+    &-menu{
+        border:none;
+        background-color: transparent;
+        cursor: pointer;
+        font-size: 1.3rem;
+    }
+}

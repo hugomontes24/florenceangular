@@ -18,8 +18,6 @@ export class DialogDeleteComponent {
   onDismiss = () => { this.dialogRef.close(false); };
 
   // close the dialog returns true
-  onConfirm = () => {
-    this.dialogRef.close(true);
-  };
+  onConfirm = () => { this.dialogRef.close(true); };
 
 }

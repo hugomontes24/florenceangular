@@ -1,0 +1,73 @@
+<app-home-nav></app-home-nav>
+
+<div class="lesson-category-item wrapper">
+    <app-notification></app-notification>
+    <h1>{{ lessonCategory.name | titlecase }}</h1>
+    <h2>Prochains cours</h2>
+
+    @for(lesson of lessons; track lesson.id){   
+        <div class="accordion">
+            <div class="accordion-header" (click)="toggleAccordion(lesson.id)">
+                <h3>{{ lesson.name  }} </h3>
+                <p>{{ lesson.date | date: 'short' }}</p>
+                <div *ngIf="!lesson.isVisible"><fa-icon [icon]="faChevronDown"></fa-icon></div>
+                <div *ngIf="lesson.isVisible"><fa-icon [icon]="faChevronUp"></fa-icon></div>
+                
+            </div>
+            <div class="accordion-content" *ngIf="lesson.isVisible" >
+                <p>{{ lesson.nbMaxUsers }} places. Il en reste {{ lesson.nbMaxUsers - lesson.users.length }}</p>
+                <div class="places">
+                    <div *ngFor ="let _ of lesson.placesUsersArray; let i = index" class="place">
+                        <div *ngIf="lesson.placesUsersArray[i]; else empty" class="place-full">  
+                            <button (click)="onWithdrawUser(lesson.placesUsersArray[i].id, lesson.id)" matTooltip="Se désincrire" 
+                                class="button-withdraw" matTooltipClass="tooltip" matTooltipPosition="below">
+                                <fa-icon [icon]="faX"></fa-icon>
+                            </button>
+                            <div>{{ lesson.placesUsersArray[i].name }} {{ lesson.placesUsersArray[i].id}}</div>
+                        </div>
+                        
+                        <ng-template #empty>
+                            <div class="place-empty" (click)="onReserveUser(lesson.id)">Réserver</div>
+                        </ng-template>     
+                    </div>   
+                </div>
+
+            </div>
+        </div> 
+
+    }
+    
+</div>
+<!-- <div class="test">
+    <form #form="ngForm" (ngSubmit)="onSubmitReservation()" *ngIf="isFormReserve">
+      <legend>Réservation</legend>
+      <input type="hidden" [(ngModel)]="lessonId" name="lessonId"> 
+       <div>
+           <label for="id">id</label>
+           <input type="number" [(ngModel)]="user.id" name="id" id="id" placeholder="User id" disabled="true">
+       </div>
+       <div>
+           <label for="nom">nom</label>
+           <input type="text" [(ngModel)]="user.name" name="nom" required >
+        </div>
+        <div>
+           <label for="email">Email</label>
+           <input type="email" [(ngModel)]="user.email" name="email" required >
+       </div>
+       <div>
+           <label for="age">Age</label>
+           <input type="number" [(ngModel)]="user.age" name="age" required >
+       </div>
+       <div>
+           <label for="isValid">Utilisateur verifié ? </label>
+           <label>
+             <input type="radio" [(ngModel)]="user.isValid" name="isValid" [value]="true">   
+             Oui
+             <input type="radio" [(ngModel)]="user.isValid" name="isValid" [value]="false">   
+             Non
+           </label>
+       </div>
+
+      <input type="submit" value="Valider">
+    </form>
+</div> -->

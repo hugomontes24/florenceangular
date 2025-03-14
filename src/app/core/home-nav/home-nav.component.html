@@ -1,0 +1,40 @@
+<nav class="navbar">
+    <div class="container-fluid">
+        <a class="navbar-brand" routerLink="/"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact: true}"
+        >
+          <fa-icon [icon]="faLeaf" aria-label="Logo du site"></fa-icon>
+        </a>
+
+        <!-- <div class="navbar-title">{{ title }}</div> -->
+        <app-nav-menu></app-nav-menu>
+
+        <!-- <button class="navbar-menu" type="button">
+            <fa-icon [icon]="fabars" aria-label="Menu du site" (click)="toggleMenu()"></fa-icon>
+        </button> -->
+
+        <!-- <div class="navbar-collapse" *ngIf="isShowMenu">
+            <ul>
+                <li>
+                    <a routerLink="/home" routerLinkActive="active">
+                        Accueil
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/lessons" routerLinkActive="active">
+                        Les cours
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/contact" routerLinkActive="active">
+                        Contact
+                    </a>
+                </li>
+
+            </ul>
+
+        </div> -->
+
+    </div>
+</nav>
