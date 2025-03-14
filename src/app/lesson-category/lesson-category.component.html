@@ -1,0 +1,14 @@
+<app-home-nav></app-home-nav>
+
+<div class="categories">
+  <h2>Les cours</h2>
+  <div class="lessons-wrapper">
+    @for(category of lessonsCategories; track category.id){
+      <a class="lesson-card"
+        [href]="'/lessonsCategories/' + category.id">
+        <h3>{{ category.name| titlecase }}</h3>
+        <p>{{ category.description }}</p>
+      </a>
+    }
+  </div>
+</div>

@@ -1,23 +1,34 @@
 import { Injectable } from "@angular/core";
 import { LessonGetDTO } from "../lesson/lesson-getDTO.interface";
 import { LessonDTO } from "../lesson/lessonDTO.interface";
+import { LessonCategory } from "../lesson-category/lesson-category.interface";
+import { UserGetDTO } from "../user/user-getDTO.interface";
 
 @Injectable({
     providedIn:'root'
 })
 
 export class LessonMapper {
-    dataToGetDTOArray = (data:any): LessonGetDTO[] => {
-        let lessons:LessonGetDTO[] = data.map((item:any) => {
-            if(item.date.date){
-              const dateObject = new Date(item.date.date);
-              item.date = dateObject;
-            }else{
-                item.date = null
-            }
-            return item;
+    categoryMap:{[idCategory:number]: string} = {};
+
+
+
+
+    dataToGetDTOArray = (data:any, categories:Array<LessonCategory>): LessonGetDTO[] => {
+        const lessons:LessonGetDTO[] = data.map((item:any) => {
+            
+            categories.forEach((category:LessonCategory) => {
+                if(item.idCategory === category.id){
+                    item.name = category.name;
+                }
+            })
+
+            const lesson = this.dataToGetDTO(item);
+
+            return lesson;
         });
         return lessons;
+        console.log(lessons);
     }
 
     dataToGetDTO = (data:any): LessonGetDTO => {
@@ -27,13 +38,28 @@ export class LessonMapper {
             date: null,
             price: data.price,
             nbMaxUsers: data.nbMaxUsers,
+            placesUsersArray: [],
             idCategory: data.idCategory,
-            users: data.users
+            users: data.users,
+            name:'',
+            isVisible: false
         }
+        
         if(data.date.date){
             const dateObject = new Date(data.date.date);
             lessonGetDTO.date = dateObject;
         }
+        if( data.nbMaxUsers > 0 ){
+            // construit un array avec les users et les places vides (null)
+            const tempArray = Array.from({length: data.nbMaxUsers}, (_, i) => null);
+            
+            
+            lessonGetDTO.placesUsersArray = tempArray;
+            lessonGetDTO.users.forEach((user: UserGetDTO, index: number) => {
+                lessonGetDTO.placesUsersArray[index] = user;
+              });
+        }
+
         return lessonGetDTO;
     }
 

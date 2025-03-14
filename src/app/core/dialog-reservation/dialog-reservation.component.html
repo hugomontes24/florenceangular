@@ -1,0 +1,38 @@
+<h2 mat-dialog-title>Réservation</h2>
+<mat-dialog-content>
+    <form #form="ngForm" (ngSubmit)="onConfirm()" >
+        <!-- <legend>Réservation</legend> -->
+        <!-- <input type="hidden" [(ngModel)]="lessonId" name="lessonId"> -->
+         <!-- <div>
+             <label for="id">id</label>
+             <input type="number" [(ngModel)]="user.id" name="id" id="id" placeholder="User id" disabled="true">
+         </div> -->
+         <div>
+             <label for="nom">nom</label>
+             <input type="text" [(ngModel)]="user.name" name="nom" required >
+          </div>
+          <div>
+             <label for="email">Email</label>
+             <input type="email" [(ngModel)]="user.email" name="email" required >
+         </div>
+         <div>
+             <label for="age">Age</label>
+             <input type="number" [(ngModel)]="user.age" name="age" required >
+         </div>
+         <!-- <div>
+             <label for="isValid">Utilisateur verifié ? </label>
+             <label>
+               <input type="radio" [(ngModel)]="user.isValid" name="isValid" [value]="true">   
+               Oui
+               <input type="radio" [(ngModel)]="user.isValid" name="isValid" [value]="false">   
+               Non
+             </label>
+         </div> -->
+  
+        <button mat-raised-button type="submit" >Valider</button>
+      </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button (click)="onDismiss()">Annuler</button>
+    <!-- <button mat-raised-button (click)="onConfirm()">Oui</button> -->
+</mat-dialog-actions>

@@ -1,0 +1,17 @@
+.notification{
+    background: rgb(48,235,183);
+    background: linear-gradient(165deg, rgba(48, 235, 182, 0.931) 0%, rgba(42, 123, 209, 0.841) 70%, rgba(64, 42, 209, 0.603) 87%, rgba(145, 42, 209, 0.644) 100%); 
+    position:absolute;
+    top: 0 ;
+    left: 0 ;
+    width: 100vw;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 4rem;
+    border-radius: 5px;
+    color: rgb(240, 231, 231);
+    font-family: 'Montserrat', 'Helvetica' sans-serif;
+    font-size: 1.2rem;
+}

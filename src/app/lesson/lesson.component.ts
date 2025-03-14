@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpService } from '../services/http.service';
-import { LessonCategory } from './lesson-category.interface';
+import { LessonCategory } from '../lesson-category/lesson-category.interface';
 import { CommonModule, DatePipe } from '@angular/common';
 import { LessonGetDTO } from './lesson-getDTO.interface';
 import { ButtonModifyComponent } from "../core/button-modify/button-modify.component";
@@ -8,21 +8,23 @@ import { ButtonDeleteComponent } from '../core/button-delete/button-delete.compo
 import { FormsModule } from '@angular/forms';
 import { LessonDTO } from './lessonDTO.interface';
 import { LessonMapper } from '../mappers/lesson.mapper';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-lesson',
   standalone: true,
   imports: [
-    DatePipe, CommonModule,
-    ButtonModifyComponent, ButtonDeleteComponent,
-    FormsModule
+    DatePipe, CommonModule,ButtonModifyComponent, 
+    ButtonDeleteComponent,FormsModule
 ],
   templateUrl: './lesson.component.html',
   styleUrl: './lesson.component.scss'
 })
-export class LessonComponent {
+
+export class LessonComponent implements OnInit, OnDestroy{
+  subscription!: Subscription;
   lessons: LessonGetDTO[] = [];
-  lessonsCategories: LessonCategory[] = [];
+  categories: LessonCategory[] = [];
   categoryMap : {[idCategory:number]: string} = {};// mapping de lessonsCategories id_category=>nam
   editLesson: LessonDTO = {
                 id: -1, 
@@ -31,8 +33,7 @@ export class LessonComponent {
                 price: 0, 
                 nbMaxUsers: 0,
                 idCategory: -1
-              }
-                                //{id: -1, name: '', description: ''}};
+              };
   lessonCategory: LessonCategory = {id: -1, name: '', description: ''} ;
 
   constructor(
@@ -40,21 +41,25 @@ export class LessonComponent {
   ){}
 
   ngOnInit():void{
-    this.getAllLessons();
-    // this.getLessonById(2);
-    this.getAllLessonsCategories();
+    this.subscription = this.httpService.getCategories().subscribe(data => this.categories = data);
+    this.httpService.getCategories().subscribe(data => {
+      this.categories = data;
+      this.getAllLessons();
+    });
+    // this.getAllLessonsCategories();
   }
+
+  ngOnDestroy(): void {this.subscription.unsubscribe();}
 
   isShowForm : boolean = false ;
   formattedDate : string = '';
   inputDate : string = '';
   inputTime : string = '';
   onEditLesson(id: number) {
-    const foundLesson = this.lessons.find(lesson => lesson.id == id)
+    const foundLesson = this.lessons.find(lesson => lesson.id == id);
     if(foundLesson != null){
       this.editLesson = this.lessonMapper.getDTOtoDTO(foundLesson);// convertit date en 'YYYY -MM-DDTHH:mmv     
       if(this.editLesson.date != ''){
-        //this.formattedDate = this.dateToIsoStringLocale(this.editLesson.date);
         this.inputDate = this.editLesson.date.slice(0,10); // convertit en 'YYYY-MM-DD
         this.inputTime = this.editLesson.date.slice(11,16); // convertit en HH:mm      
       }
@@ -63,7 +68,6 @@ export class LessonComponent {
   }
 
   onSubmitLesson =():void =>{
-    
     if(this.inputDate !== '' && this.inputTime !== '') {
       //this.formattedDate = `${this.inputDate}T${this.inputTime}`
       this.editLesson.date = this.lessonMapper.dateLocaleToFormatDBLocale(this.inputDate,this.inputTime);
@@ -80,25 +84,10 @@ export class LessonComponent {
      
     }
 
-  getAllLessonsCategories = ():void => {
-    this.httpService.getAllLessonsCategories().subscribe({
-      next: (data:LessonCategory[]) => {
-        this.lessonsCategories = data;
-        this.lessonsCategories.forEach(cat =>{ 
-          this.categoryMap[cat.id] = cat.name;
-        });
-        // console.log(this.lessonsCategories);       
-      },
-      error: (err: Error) => console.error('Observer got an error: ' + err),
-      // complete: ()=>this.router.navigate(['listCategory'])
-      complete: () => console.log('Successfully fetched all users')
-    });
-  }
-
   getAllLessons=():void => {
     this.httpService.getAllLessons().subscribe({
       next: (data:any) => {
-        this.lessons = this.lessonMapper.dataToGetDTOArray(data);
+        this.lessons = this.lessonMapper.dataToGetDTOArray(data,this.categories);
         console.log(this.lessons);     
       },
       error: (err: Error) => console.error('Observer got an error: ' + err),
@@ -112,8 +101,6 @@ export class LessonComponent {
     const date = new Date(isoLocal);
     return new Date(date.getTime() + date.getTimezoneOffset() * 60000);
   };
-
- 
 
 }
 
@@ -143,4 +130,18 @@ export class LessonComponent {
     // dateToIsoStringLocale = ( date:Date ):string => {
   //   const localDate = new Date( date.getTime() - date.getTimezoneOffset() * 60000 );
   //   return localDate.toISOString().slice(0,16);// convertit en 'YYYY-MM-DDTHH:mm'
+  // }
+
+   // getAllLessonsCategories = ():void => {
+  //   this.httpService.getAllLessonsCategories().subscribe({
+  //     next: (data:LessonCategory[]) => {
+  //       this.lessonsCategories = data;
+  //       this.lessonsCategories.forEach(cat =>{ 
+  //         this.categoryMap[cat.id] = cat.name;
+  //       });     
+  //     },
+  //     error: (err: Error) => console.error('Observer got an error: ' + err),
+  //     // complete: ()=>this.router.navigate(['listCategory'])
+  //     complete: () => console.log('Successfully fetched all users')
+  //   });
   // }

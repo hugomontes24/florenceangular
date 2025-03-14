@@ -2,20 +2,20 @@ import { Component } from '@angular/core';
 import { User } from '../user/user.interface';
 import { HttpService } from '../services/http.service';
 import { FooterComponent } from '../core/footer/footer.component';
-import { NavComponent } from '../core/nav/nav.component';
 import { CommonModule } from '@angular/common';
 import { FaIconComponent, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faPlus, faStar, faUserPen,faXmark} from '@fortawesome/free-solid-svg-icons';
 import { faGithub} from '@fortawesome/free-brands-svg-icons';
 import { FormsModule} from '@angular/forms';
+import { HomeNavComponent } from '../core/home-nav/home-nav.component';
 
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
-    FooterComponent,
-    NavComponent, CommonModule, FontAwesomeModule, FaIconComponent,
+    FooterComponent, HomeNavComponent,
+    CommonModule, FontAwesomeModule, FaIconComponent,
     FormsModule
   ],
   templateUrl: './home.component.html',
