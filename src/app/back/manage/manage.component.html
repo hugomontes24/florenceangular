@@ -1,0 +1,20 @@
+<app-home-nav></app-home-nav>
+<app-h-tab></app-h-tab>
+<div class="wrapper">
+    
+    <app-v-tab (emitCategories)="onCategories($event)"
+               (emitLessons)="onLessons()"
+                class="tab">
+    </app-v-tab>
+    
+    <app-manage-content *ngIf="boolCategories"
+                        [categories]="categories"
+                        class="content">
+    </app-manage-content>
+
+    <app-manage-content-lesson *ngIf="boolLessons"            
+                        class="content">
+    </app-manage-content-lesson>
+    
+
+</div>

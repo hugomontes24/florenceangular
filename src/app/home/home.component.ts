@@ -7,7 +7,7 @@ import { FaIconComponent, FontAwesomeModule } from '@fortawesome/angular-fontawe
 import { faPlus, faStar, faUserPen,faXmark} from '@fortawesome/free-solid-svg-icons';
 import { faGithub} from '@fortawesome/free-brands-svg-icons';
 import { FormsModule} from '@angular/forms';
-import { HomeNavComponent } from '../core/home-nav/home-nav.component';
+import { HomeNavComponent } from '../core/nav/home-nav/home-nav.component';
 
 
 @Component({

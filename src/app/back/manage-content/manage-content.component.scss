@@ -1,0 +1,28 @@
+.table{
+    padding: .5rem;
+    th{
+        text-align: center;
+        font-size: 1rem;
+        font-weight: 600;
+        padding: .5rem;
+    }
+    td{
+        text-align: center;
+        font-size: .8rem;
+        &.name{
+            text-align: left;
+        }
+    }
+    .btn-add{
+        margin: 1rem 0;
+        padding: .3rem .5rem;
+        border: none;
+        background-color: rgba(92, 192, 61, 0.7);
+        border-radius: 5px;
+        cursor: pointer;
+        color: white;
+        font-size: .8rem;
+        font-weight: 400;
+        transition: all ease-in-out .3s;
+    }
+}

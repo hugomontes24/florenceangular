@@ -1,0 +1,55 @@
+<div class="table">
+    <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th >Nom</th>
+            <th>Description</th>
+            <th>Modif</th>
+            <th>Suppr</th>
+          </tr>
+        </thead>
+        <tbody>
+        @for(cat of categories; track cat.id){
+          <tr >
+            <!-- <tr *ngFor="let item of categories"> -->
+            <td>{{ cat.id }}</td>
+            <td class="name">{{ cat.name | titlecase }}</td>
+            <td>{{ cat.description|slice:0:15 }}</td>
+            <td>
+              <app-button-modify (buttonClicked)="onEditCat(cat.id)"></app-button-modify>
+                <!-- <button (click)="onEditCat(cat.id)">
+                  Modifier</button> -->
+            </td>
+            <td>
+              <app-button-delete (buttonClickedDelete)="onDeleteCat(cat.id)"></app-button-delete>
+              <!-- <button (click)="onDeleteCat(cat.id)">Supprimer</button></td> -->
+          </tr>
+        }
+        </tbody>
+    </table>
+    <button (click)="onAddCat()" class="btn-add">Ajouter une catégorie</button>
+</div>
+<form #form="ngForm" (ngSubmit)="onSubmit()" *ngIf="isFormEdit" >
+    <legend>{{ legend }}</legend>
+    <div class="div-input">
+        <label for="id">ID</label>
+        <input type="number" [(ngModel)]="category.id" name="id" readonly >
+    </div>
+      
+    <div class="div-input">
+        <label for="name">Nom</label>
+        <input type="text" [(ngModel)]="category.name" name="name" required >
+    </div>
+    <div class="div-input">
+        <label for="description" >Description</label>
+        <input type="text" [(ngModel)]="category.description" name="description" required >
+    </div>
+    
+    
+    <button type="submit" class="submit-btn" >Valider</button>      
+    
+
+</form>
+
+

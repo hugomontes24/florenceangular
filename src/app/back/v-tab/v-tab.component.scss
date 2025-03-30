@@ -1,0 +1,35 @@
+.vertical{
+    min-height: 90vh;
+    width: 4rem;
+    background-color: rgba(0, 0, 0, 0.831);
+    color: white;
+    font-size: .7rem;
+    .sidebar-item{
+        // padding: 1rem .2rem;
+        border-bottom: rgba(255, 255, 255, 0.783) 1px solid;
+       button{
+        display: block;
+        margin: 0 auto;
+        padding: .5rem 0;
+        border: none;
+        color: white;
+        background-color: transparent;
+        font-size: .7rem;
+       }
+    }
+    
+    .sidebar-item:hover{
+     cursor: pointer;
+     background-color: black;
+    }
+    .sidebar-item:hover button{
+        transform: scale(1.1);
+        color: rgb(250, 187, 187);
+
+
+    }
+
+
+
+
+}

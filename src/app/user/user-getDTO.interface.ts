@@ -10,4 +10,5 @@ export interface UserGetDTO {
     //deleted_at : string;
     age : number;
     isValid : boolean;
+    reservationId : number | null;
 }

@@ -4,6 +4,7 @@ import { LessonComponent } from './lesson/lesson.component';
 import { LessonItemComponent } from './lesson-item/lesson-item.component';
 import { LessonCategoryComponent } from './lesson-category/lesson-category.component';
 import { LessonCategoryItemComponent } from './lesson-category-item/lesson-category-item.component';
+import { ManageComponent } from './back/manage/manage.component';
 
 
 export const routes: Routes = [
@@ -15,4 +16,10 @@ export const routes: Routes = [
     
     { path:'lessons', component: LessonComponent },
     { path:'lessons/:id', component: LessonItemComponent },
+
+    // manage back
+    { path:'back', component: ManageComponent },
+    
+
+
 ];

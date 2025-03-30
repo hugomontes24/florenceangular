@@ -15,15 +15,15 @@
                 
             </div>
             <div class="accordion-content" *ngIf="lesson.isVisible" >
-                <p>{{ lesson.nbMaxUsers }} places. Il en reste {{ lesson.nbMaxUsers - lesson.users.length }}</p>
+                <!-- <p>{{ lesson.nbMaxUsers }} places. Il en reste {{ lesson.nbMaxUsers - lesson.users.length }}</p> -->
                 <div class="places">
                     <div *ngFor ="let _ of lesson.placesUsersArray; let i = index" class="place">
                         <div *ngIf="lesson.placesUsersArray[i]; else empty" class="place-full">  
-                            <button (click)="onWithdrawUser(lesson.placesUsersArray[i].id, lesson.id)" matTooltip="Se désincrire" 
+                            <button (click)="onCancelReservation( lesson.placesUsersArray[i].reservationId )" matTooltip="Se désincrire" 
                                 class="button-withdraw" matTooltipClass="tooltip" matTooltipPosition="below">
                                 <fa-icon [icon]="faX"></fa-icon>
                             </button>
-                            <div>{{ lesson.placesUsersArray[i].name }} {{ lesson.placesUsersArray[i].id}}</div>
+                            <div>{{ lesson.placesUsersArray[i].name }} {{ lesson.placesUsersArray[i].reservationId}}</div>
                         </div>
                         
                         <ng-template #empty>
