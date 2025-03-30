@@ -11,10 +11,10 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTooltip } from '@angular/material/tooltip';
-import { DialogDeleteComponent } from '../core/dialog-delete/dialog-delete.component';
-import { ConfirmationComponent } from '../core/confirmation/confirmation.component';
+import { DialogDeleteComponent } from '../core/dialog/dialog-delete/dialog-delete.component';
+import { ConfirmationComponent } from '../core/dialog/confirmation/confirmation.component';
 import { faChevronDown, faChevronUp, faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
-import { HomeNavComponent } from "../core/home-nav/home-nav.component";
+import { HomeNavComponent } from "../core/nav/home-nav/home-nav.component";
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -41,7 +41,8 @@ export class LessonItemComponent implements OnInit, OnDestroy {
       name: '',
       email: '',
       age: 0,
-      isValid: false
+      isValid: false,
+      reservationId: null
     }
 
   lesson : LessonGetDTO = {
@@ -52,7 +53,8 @@ export class LessonItemComponent implements OnInit, OnDestroy {
     nbMaxUsers: 0,
     placesUsersArray: [],
     idCategory: 0,
-    users: [],
+    reservations: [],
+    // users: [],
     name: '',
     isVisible: false
   };
@@ -79,8 +81,8 @@ export class LessonItemComponent implements OnInit, OnDestroy {
   getAllLessonsCategories = ():void => {
     this.httpService.getAllLessonsCategories().subscribe({
       next: (data:LessonCategory[]) => {
-        this.lessonsCategories = data;
-        this.lessonsCategories.forEach(cat =>{ 
+          this.lessonsCategories = data;
+          this.lessonsCategories.forEach(cat =>{ 
           this.categoryMap[cat.id] = cat.name;
         });
         // console.log(this.lessonsCategories);       
@@ -134,11 +136,9 @@ export class LessonItemComponent implements OnInit, OnDestroy {
     this.httpService.getLessonById(id).subscribe({
       next: (data:any) => {
         this.lesson = this.lessonMapper.dataToGetDTO(data);
-        this.placesList = Array.from({length: this.lesson.nbMaxUsers}, (_, i) => null);
-        this.lesson.users.forEach((user: UserGetDTO, index: number) => {
-          this.placesList[index] = user;
-        });
-        console.log(this.placesList);
+        ;
+        
+       
       },
       error: (err: Error) => console.error('Observer got an error: ' + err),
       complete: () => console.log('Observer got a complete notification')

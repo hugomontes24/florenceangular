@@ -12,15 +12,15 @@
         <div *ngIf="isVisible"><fa-icon [icon]="faChevronUp"></fa-icon></div>
     </div>
     <div class="accordion-content" *ngIf="isVisible" >
-        <p>{{ lesson.nbMaxUsers }} places. Il en reste {{ lesson.nbMaxUsers - lesson.users.length }}</p>
+        <!-- <p>{{ lesson.nbMaxUsers }} places. Il en reste {{ lesson.nbMaxUsers - lesson.users.length }}</p> -->
         <div class="places">
-            <div *ngFor ="let _ of placesList; let i = index" class="place">
-                <div *ngIf="placesList[i]; else empty" class="place-full">  
+            <div *ngFor ="let _ of lesson.placesUsersArray; let i = index" class="place">
+                <div *ngIf="lesson.placesUsersArray[i]; else empty" class="place-full">  
                     <button (click)="onWithdrawUser(i)" matTooltip="Se désincrire" 
                         class="button-withdraw" matTooltipClass="tooltip" matTooltipPosition="below">
                         <fa-icon [icon]="faX"></fa-icon>
                     </button>
-                    <div>{{ placesList[i].name}}</div>
+                    <div>{{ lesson.placesUsersArray[i].name }} {{ lesson.placesUsersArray[i].id}}</div>
                 </div>
                 <ng-template #empty>
                     <div class="place-empty" (click)="onReserveUser(i)">Réserver</div>

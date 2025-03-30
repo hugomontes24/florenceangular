@@ -1,0 +1,48 @@
+<h2 mat-dialog-title align="center">Réservation</h2>
+
+<mat-dialog-content align="center">
+    <form #form="ngForm" (ngSubmit)="onConfirm()" >
+      
+        <div class="div-input">
+            <label for="nom">Nom</label>
+            <input type="text" [(ngModel)]="user.name" name="nom" required >
+        </div>
+        <div class="div-input">
+            <label for="email">Email</label>
+            <input type="email" [(ngModel)]="user.email" name="email" required >
+        </div>
+        <div class="div-input">
+            <label for="age">Age</label>
+            <input type="number" [(ngModel)]="user.age" name="age" required >
+        </div>
+        <mat-dialog-actions align="center">
+            <button mat-raised-button type="submit" class="submit-btn" >Valider</button>      
+        </mat-dialog-actions>
+
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="onDismiss()">Annuler</button>
+</mat-dialog-actions>
+    
+    
+    
+    <!-- <button mat-raised-button (click)="onConfirm()">Oui</button> -->
+    
+    <!-- <div>
+        <label for="isValid">Utilisateur verifié ? </label>
+        <label>
+            <input type="radio" [(ngModel)]="user.isValid" name="isValid" [value]="true">   
+            Oui
+            <input type="radio" [(ngModel)]="user.isValid" name="isValid" [value]="false">   
+            Non
+        </label>
+    </div> -->
+
+      <!-- <legend>Réservation</legend> -->
+        <!-- <input type="hidden" [(ngModel)]="lessonId" name="lessonId"> -->
+         <!-- <div>
+             <label for="id">id</label>
+             <input type="number" [(ngModel)]="user.id" name="id" id="id" placeholder="User id" disabled="true">
+         </div> -->

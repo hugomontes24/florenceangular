@@ -1,22 +1,21 @@
 <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="icon-button  menu">
     <!-- <mat-icon>more_vert</mat-icon> -->
     <!-- <fa-icon [icon]="fabars" aria-label="Menu du site" (click)="toggleMenu()"></fa-icon> -->
-    <fa-icon [icon]="fabars" aria-label="Menu du site" ></fa-icon>
-  </button>
+  <fa-icon [icon]="fabars" aria-label="Menu du site" ></fa-icon>
+</button>
 
-  <mat-menu #menu="matMenu" class="custom-menu">
-    <button mat-menu-item routerLink="/" routerLinkActive="active" >
-        <!-- <fa-icon [icon]="fahome" aria-label="icon home" class="fa-icon"></fa-icon> -->
-      <span>Accueil</span>
-    </button>
-    <button mat-menu-item [mat-menu-trigger-for]="lessons">
-      <span>Les Cours</span>
-    </button>
-    <button mat-menu-item>
-      <!-- <mat-icon>notifications_off</mat-icon> -->
-      <span>Disable alerts</span>
-    </button>
-  </mat-menu>
+<mat-menu #menu="matMenu" class="custom-menu">
+  <button mat-menu-item routerLink="/" routerLinkActive="active" >
+    <span>Accueil</span>
+  </button>
+  <button mat-menu-item [mat-menu-trigger-for]="lessons">
+    <span>Les Cours</span>
+  </button>
+  <button mat-menu-item routerLink="/back" routerLinkActive="active">
+    <!-- <mat-icon>notifications_off</mat-icon> -->
+    <span>Backend</span>
+  </button>
+</mat-menu>
 
  
   <mat-menu #lessons="matMenu" class="custom-menu-sub">

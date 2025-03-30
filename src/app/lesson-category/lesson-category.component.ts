@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LessonCategory } from './lesson-category.interface';
 import { HttpService } from '../services/http.service';
-import { HomeNavComponent } from '../core/home-nav/home-nav.component';
+import { HomeNavComponent } from '../core/nav/home-nav/home-nav.component';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 

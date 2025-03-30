@@ -5,9 +5,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterModule, Router } from '@angular/router';
-import { LessonCategory } from '../../lesson-category/lesson-category.interface';
-import { HttpService } from '../../services/http.service';
-import { LessonMapper } from '../../mappers/lesson.mapper';
+import { LessonCategory } from '../../../lesson-category/lesson-category.interface';
+import { HttpService } from '../../../services/http.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -24,17 +23,19 @@ import { CommonModule } from '@angular/common';
 export class NavMenuComponent implements OnInit {
 
   lessonsCategories: LessonCategory[] = [];
-  constructor(
-      private httpService: HttpService, private lessonMapper : LessonMapper, 
-      private router: Router
-    ){}
 
-    ngOnInit():void{
-      this.getAllLessonsCategories();
-    }
+  constructor(
+    private httpService: HttpService, 
+    private router: Router
+  ){}
+  
+  ngOnInit():void{
+    this.getAllLessonsCategories();
+  }
   
   getAllLessonsCategories = ():void => {
-    this.httpService.getAllLessonsCategories().subscribe({
+    this.httpService.getAllLessonsCategories()
+    .subscribe({
       next: (data:LessonCategory[]) => {this.lessonsCategories = data;},
       error: (err: Error) => console.error('Observer got an error: ' + err),
       complete: () => console.log('Successfully fetched all categories')

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { HomeNavComponent } from '../core/home-nav/home-nav.component';
+import { HomeNavComponent } from '../core/nav/home-nav/home-nav.component';
 import { LessonCategory } from '../lesson-category/lesson-category.interface';
 import { HttpService } from '../services/http.service';
 import { ActivatedRoute } from '@angular/router';
@@ -11,10 +11,10 @@ import { faChevronDown, faChevronUp, faXmarkCircle } from '@fortawesome/free-sol
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogDeleteComponent } from '../core/dialog-delete/dialog-delete.component';
+import { DialogDeleteComponent } from '../core/dialog/dialog-delete/dialog-delete.component';
 import { UserGetDTO } from '../user/user-getDTO.interface';
 import { FormsModule } from '@angular/forms';
-import { DialogReservationComponent } from '../core/dialog-reservation/dialog-reservation.component';
+import { DialogReservationComponent } from '../core/dialog/dialog-reservation/dialog-reservation.component';
 import { NotificationService } from '../services/notification.service';
 import { NotificationComponent } from "../core/notification/notification.component";
 
@@ -44,7 +44,8 @@ export class LessonCategoryItemComponent implements OnInit{
                           nbMaxUsers: 0,
                           placesUsersArray: [],
                           idCategory: 0,
-                          users: [],
+                          reservations: [],
+                          // users: [],
                           name: '',
                           isVisible: false
                         };
@@ -54,7 +55,8 @@ export class LessonCategoryItemComponent implements OnInit{
     name: '',
     email: '',
     age: 0,
-    isValid: false
+    isValid: false,
+    reservationId:null
   }
   constructor( private httpService: HttpService, private route:ActivatedRoute,
                private lessonMapper: LessonMapper, private dialog: MatDialog,
@@ -94,11 +96,13 @@ export class LessonCategoryItemComponent implements OnInit{
     });
   }
 
-  onWithdrawUser(userId: number, lessonId:number) {  // desincrire un user de la lesson delete dans lesson-user
+
+
+  onCancelReservation(reservationId:number){
     const dialogRef1 = this.dialog.open(DialogDeleteComponent);
     dialogRef1.afterClosed().subscribe((dialogResult : any)=>{
       if(dialogResult){
-            this.httpService.lessonDeleteReservation(userId, lessonId).subscribe({ 
+            this.httpService.cancelReservation(reservationId).subscribe({ 
           next:() => {
             this.getAllLessonsByIdCategory(this.lessonCategory.id);
             this.notificationService.showMessage('Annulation effectuée', 3000);
@@ -164,5 +168,29 @@ export class LessonCategoryItemComponent implements OnInit{
   faChevronDown = faChevronDown;
     faChevronUp= faChevronUp;
     faX = faXmarkCircle;
+
+  /**
+   * Desinscrit un utilisateur d'une lesson (supprime la ligne dans la table 
+   * lesson-user). Ouvre une boite de dialogue pour demander confirmation.
+   * @param userId l'ID de l'utilisateur  s'inscrire
+   * @param lessonId l'ID de la le on  laquelle l'utilisateur s'inscrit
+   */
+  onWithdrawUser(userId: number, lessonId:number) {  // desincrire un user de la lesson delete dans lesson-user
+    const dialogRef1 = this.dialog.open(DialogDeleteComponent);
+    dialogRef1.afterClosed().subscribe((dialogResult : any)=>{
+      if(dialogResult){
+            this.httpService.lessonDeleteReservation(userId, lessonId).subscribe({ 
+          next:() => {
+            this.getAllLessonsByIdCategory(this.lessonCategory.id);
+            this.notificationService.showMessage('Annulation effectuée', 3000);
+            // this.toggleAccordion(this.lessonId);
+          },
+          error: (err: Error) => console.error('Observer got an error: ' + err),
+          complete:() => console.log('Suppression réussiee')
+        });
+        
+      }
+    });
+  }
 
 }

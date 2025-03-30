@@ -8,7 +8,8 @@ export interface LessonGetDTO {
     nbMaxUsers: number;
     placesUsersArray: any[];
     idCategory: number;
-    users: UserGetDTO[];
+    reservations: any[];
+    // users: UserGetDTO[];
     name: string|null;
     isVisible: boolean; // accordion open or close
 }
